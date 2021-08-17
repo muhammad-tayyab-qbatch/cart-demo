@@ -1,6 +1,7 @@
 import './App.css';
 import Navbar from './components/Navbar';
 import Products from './components/Products';
+import Cart from './components/Cart';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 function App() {
   return (
@@ -8,7 +9,8 @@ function App() {
       <Navbar />
         <main>
           <Switch>
-            <Route path='/' component = { Products }/>
+            <Route exact path='/' component={ Products } />
+            <Route path='/cart' component={ Cart } />
           </Switch>
         </main>
     </Router>
