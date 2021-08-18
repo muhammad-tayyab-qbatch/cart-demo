@@ -9,8 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-
-import CartItem from './CartItem';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles({
     root: {
@@ -28,8 +27,7 @@ const useStyles = makeStyles({
     }
 });
 
-
-const Cart = () => {
+const CartItem = () => {
     const classes = useStyles();
 
     return (
@@ -38,55 +36,44 @@ const Cart = () => {
             <Card className={classes.root} style={{ display: "flex" }}>
                 {/* <CardActionArea > */}
                 <CardContent style={{ display: "flex", width: "-webkit-fill-available" }}>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}>
-                        Name
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle} >
+                        Apple
                     </Typography>
-                    {/* <div className={classes.controls}>
+
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}>
+                        Rs. 100
+                    </Typography>
+
+                    <div className={classes.controls}>
                         <IconButton aria-label="previous">
                             <RemoveIcon />
                         </IconButton>
-                        <input />
+                        <input style={{ textAlign: "center" }} value={5} />
                         <IconButton aria-label="next">
                             <AddIcon />
                         </IconButton>
-                    </div> */}
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}>
-                        Item Price
-                    </Typography>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}
-                        style={{
-                            paddingLeft: "50px"
-                        }}>
+                    </div>
 
-                        Quantity
-                    </Typography>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}
                         style={{
                             position: "fixed",
                             right: "250px"
                         }}>
-                        Total Price
-                    </Typography>
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}
-                        style={{
-                            position: "fixed",
-                            right: "0px"
-                        }}>
-
-                        Remove Item
-
+                        Rs. 500
                     </Typography>
                 </CardContent>
                 {/* </CardActionArea> */}
-                {/* <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}>
-                    
+                <CardActions style={{ width: "90px" }}>
+                    <IconButton  color="secondary"   aria-label="delete">
+                        <DeleteIcon />
+                    </IconButton>
+                    {/* <Button size="small" color="primary" >
                         Remove Item
-                    
-                </Typography> */}
+                    </Button> */}
+                </CardActions>
             </Card>
-            <CartItem />
         </div>
     );
 }
 
-export default Cart;
+export default CartItem;

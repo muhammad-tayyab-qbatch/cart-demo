@@ -5,8 +5,10 @@ export const getDataFromApi = createAsyncThunk(
     'fetching-products',
     async (data, thunkAPI) => {
         try {
-            const res = await axios.get('http://localhost:8000/products');
-            return res.data;
+            //const res = await axios.get('http://localhost:8000/products');
+           const res = await axios.get('https://fakestoreapi.com/products');
+           //console.log(res.data);
+           return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message);
         }
