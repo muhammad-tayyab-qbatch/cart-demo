@@ -27,8 +27,9 @@ const useStyles = makeStyles({
     }
 });
 
-const CartItem = () => {
+const CartItem = (props) => {
     const classes = useStyles();
+    const { cartId, productId, productName, productPrice, productQuantity, src } = props;
 
     return (
         <div>
@@ -37,18 +38,18 @@ const CartItem = () => {
                 {/* <CardActionArea > */}
                 <CardContent style={{ display: "flex", width: "-webkit-fill-available" }}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle} >
-                        Apple
+                        {productName}
                     </Typography>
 
                     <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}>
-                        Rs. 100
+                        Rs. {productPrice}
                     </Typography>
 
                     <div className={classes.controls}>
                         <IconButton aria-label="previous">
                             <RemoveIcon />
                         </IconButton>
-                        <input style={{ textAlign: "center" }} value={5} />
+                        <input style={{ textAlign: "center" }} value={productQuantity} />
                         <IconButton aria-label="next">
                             <AddIcon />
                         </IconButton>
@@ -59,12 +60,12 @@ const CartItem = () => {
                             position: "fixed",
                             right: "250px"
                         }}>
-                        Rs. 500
+                        Rs. {productQuantity*productPrice}
                     </Typography>
                 </CardContent>
                 {/* </CardActionArea> */}
                 <CardActions style={{ width: "90px" }}>
-                    <IconButton  color="secondary"   aria-label="delete">
+                    <IconButton color="secondary" aria-label="delete">
                         <DeleteIcon />
                     </IconButton>
                     {/* <Button size="small" color="primary" >
