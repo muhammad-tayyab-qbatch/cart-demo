@@ -5,13 +5,9 @@ import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 
 import { NavLink } from 'react-router-dom';
 
-// import Toolbar from '@material-ui/core/Toolbar';
-
-// import Typography from '@material-ui/core/Typography';
-// import InputBase from '@material-ui/core/InputBase';
 
 const Navbar = () => {
-    const { count } = useSelector((state) => state.cart);
+    const { itemCount } = useSelector((state) => state.cart);
     return (
         <div className="navbar-div">
             <AppBar position="static" color="default">
@@ -19,17 +15,17 @@ const Navbar = () => {
                     <NavLink exact to="/">
                         <Tab label="Products" />
                     </NavLink>
-                    <IconButton aria-label="show Cart Items" color="inherit" style={{
-                        marginLeft: "auto",
-                        paddingRight: "30px"
-                    }}>
-                        <NavLink to="/cart">
-                            <Badge badgeContent={count} color="secondary">
+                    <NavLink to="/cart" style={{display:"contents"}}>
+                        <IconButton aria-label="show Cart Items" color="inherit"
+                            style={{
+                                marginLeft: "auto",
+                                paddingRight: "30px"
+                            }}>
+                            <Badge badgeContent={itemCount} color="secondary">
                                 <ShoppingCartOutlinedIcon />
-
                             </Badge>
-                        </NavLink>
-                    </IconButton>
+                        </IconButton>
+                    </NavLink>
 
                 </Tabs>
 

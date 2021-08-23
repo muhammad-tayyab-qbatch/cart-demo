@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,7 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import { addToCart } from '../redux/slices/cartSlice';
+import { addAndUpdateToCart } from '../redux/slices/cartSlice';
 
 const useStyles = makeStyles({
   root: {
@@ -24,13 +24,12 @@ const useStyles = makeStyles({
 const ProductCard = (props) => {
   const classes = useStyles();
   const { _id, name, price, src } = props;
-  const [quantity, setQuantity] = useState(0);
-  //console.log(`quantity is ${quantity}`);
+  //const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
 
   const handleOnClick = () => {
-    setQuantity(quantity + 1); 
-    dispatch(addToCart({productId: _id, quantity: quantity }))
+    //setQuantity(quantity + 1); 
+    dispatch(addAndUpdateToCart({productId: _id, quantity: 1 }))
   }
   return (
     <Card className={classes.root}>
@@ -41,9 +40,10 @@ const ProductCard = (props) => {
           image={src}
           title={name}
           style={{
-            height: "200px",
-            width: "140px",
-            display: "inline"
+            height: "250px",
+            width: "190px",
+            display: "inline",
+            objectFit: "contain"
           }}
         />
         <CardContent style={{ padding: "2px" }}>

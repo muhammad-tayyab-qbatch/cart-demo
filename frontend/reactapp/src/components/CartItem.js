@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch  } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import { removeCartItem, addAndUpdateToCart } from '../redux/slices/cartSlice';
 
 const useStyles = makeStyles({
     root: {
@@ -27,10 +28,24 @@ const useStyles = makeStyles({
     }
 });
 
+
 const CartItem = (props) => {
     const classes = useStyles();
-    const { cartId, productId, productName, productPrice, productQuantity, src } = props;
+    const dispatch = useDispatch();
+    const { cartId, productId, productName, productPrice, quantity, src } = props;
+    const [count , setCount ] = useState(quantity);
 
+    const handleChange = (e) => {
+        let total = e.target.value - count;
+        // if(e.target.value === 1){
+        //     total=1;
+        // }
+        // else{
+        //     total = e.target.value - count;
+        // }
+        setCount(e.target.value);
+        dispatch(addAndUpdateToCart({productId: productId, quantity: total}));
+    }
     return (
         <div>
 
@@ -45,32 +60,19 @@ const CartItem = (props) => {
                         Rs. {productPrice}
                     </Typography>
 
-                    <div className={classes.controls}>
-                        <IconButton aria-label="previous">
-                            <RemoveIcon />
-                        </IconButton>
-                        <input style={{ textAlign: "center" }} value={productQuantity} />
-                        <IconButton aria-label="next">
-                            <AddIcon />
-                        </IconButton>
+                    <div style={{ width: '350px' }}>
+                        <input style={{ textAlign: "center" }} type="number" min="1" value={quantity || 0 } onChange={handleChange}/>
                     </div>
 
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}
-                        style={{
-                            position: "fixed",
-                            right: "250px"
-                        }}>
-                        Rs. {productQuantity*productPrice}
+                    <Typography gutterBottom variant="h5" component="h2" >
+                        Rs. {( quantity || 0 )* productPrice}
                     </Typography>
                 </CardContent>
                 {/* </CardActionArea> */}
-                <CardActions style={{ width: "90px" }}>
-                    <IconButton color="secondary" aria-label="delete">
+                <CardActions style={{ width: "130px" }} >
+                    <IconButton color="secondary" aria-label="delete" onClick={() => dispatch(removeCartItem({cartId: cartId}))}>
                         <DeleteIcon />
                     </IconButton>
-                    {/* <Button size="small" color="primary" >
-                        Remove Item
-                    </Button> */}
                 </CardActions>
             </Card>
         </div>
