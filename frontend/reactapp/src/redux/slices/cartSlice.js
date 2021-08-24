@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios';
+import axios from '../../axios-config';
 
 export const getCartItemsFromApi = createAsyncThunk(
     'get-cart-items',
     async (data, { rejectWithValue }) => {
         try {
-            const res = await axios.get('http://localhost:8000/cart');
+            const res = await axios.get('/cart');
             return res.data;
         } catch (e) {
             return rejectWithValue(e.message);
@@ -16,28 +16,22 @@ export const getCartItemsFromApi = createAsyncThunk(
 export const addAndUpdateToCart = createAsyncThunk(
     'add/update-item-to-cart',
     async (data, { getState, rejectWithValue }) => {
-
-        const { productId, quantity } = data;
-        const cartList = getState().cart.cartList;
-        var item = cartList.find(obj => obj.productId === productId);
-        if (item) {
-            try {
-                const res = await axios.patch(`http://localhost:8000/products/${productId}`, { quantity: item.quantity + quantity });
-                //return res.data;
+        try {
+            const { productId, quantity } = data;
+            const { cart } = getState();
+            var item = cart && cart.cartList.find(obj => obj.productId === productId);
+            if (item) {
+                const res = await axios.patch(`/products/${productId}`, { quantity: item.quantity + quantity });
                 return { response: res.data, quantity };
-            } catch (e) {
-                return rejectWithValue(e.message);
             }
-        }
-        else {
-            try {
-                const res = await axios.post('http://localhost:8000/products', { productId: productId, quantity: quantity });
-                return {response: res.data};
-            } catch (e) {
-                return rejectWithValue(e.message);
-            }
-        }
+            else {
+                const res = await axios.post('/products', { productId: productId, quantity: quantity });
+                return { response: res.data };
 
+            }
+        } catch (e) {
+            return rejectWithValue(e.message);
+        }
     }
 )
 
@@ -46,7 +40,7 @@ export const removeCartItem = createAsyncThunk(
     async (data, { rejectWithValue }) => {
         const { cartId } = data;
         try {
-            const res = await axios.delete(`http://localhost:8000/cart/${cartId}`);
+            const res = await axios.delete(`/cart/${cartId}`);
             return res.data;
         } catch (e) {
             return rejectWithValue(e.message);
@@ -58,6 +52,7 @@ const initialState = {
     cartList: [],
     itemCount: 0
 }
+
 const cartSlice = createSlice({
     name: 'cart',
     initialState,

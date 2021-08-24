@@ -17,20 +17,22 @@ const useStyles = makeStyles({
 
   },
   media: {
-    height: 50,
+    height: "250px",
+    width: "190px",
+    display: "inline",
+    objectFit: "contain"
   },
 });
 
 const ProductCard = (props) => {
   const classes = useStyles();
   const { _id, name, price, src } = props;
-  //const [quantity, setQuantity] = useState(0);
   const dispatch = useDispatch();
 
   const handleOnClick = () => {
-    //setQuantity(quantity + 1); 
-    dispatch(addAndUpdateToCart({productId: _id, quantity: 1 }))
+    dispatch(addAndUpdateToCart({ productId: _id, quantity: 1 }))
   }
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -39,12 +41,7 @@ const ProductCard = (props) => {
           alt={name}
           image={src}
           title={name}
-          style={{
-            height: "250px",
-            width: "190px",
-            display: "inline",
-            objectFit: "contain"
-          }}
+          className={classes.media}
         />
         <CardContent style={{ padding: "2px" }}>
           <Typography gutterBottom variant="h5" component="h2" style={{ paddingTop: "5px" }}>

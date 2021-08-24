@@ -13,12 +13,9 @@ router.get('/products', async (req, res) => {
 })
 
 router.post('/products', async (req, res) => {
-    //const {name} = req.data;
-    //console.log(`res of post req ${req.body.productId}`);
     try {
         const cartItem = new Cart(req.body);
         const result = await cartItem.save();
-        //console.log(`result is ${result}`)
         res.status(201).json(result);
       } catch (e) {
         res.status(400).send(e);
@@ -32,9 +29,8 @@ router.patch('/products/:id', async (req, res) => {
         const result = await Cart.findOneAndUpdate({ productId: id }, req.body, {
             new: true
           });
-       // console.log(`result after updation is ${result}`)
         res.status(201).json(result);
-    }catch(e){
+    } catch(e){
         res.status(400).send(e);
     }
 })

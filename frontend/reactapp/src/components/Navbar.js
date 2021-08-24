@@ -15,7 +15,7 @@ const Navbar = () => {
                     <NavLink exact to="/">
                         <Tab label="Products" />
                     </NavLink>
-                    <NavLink to="/cart" style={{display:"contents"}}>
+                    <NavLink to="/cart" style={{ display: "contents" }}>
                         <IconButton aria-label="show Cart Items" color="inherit"
                             style={{
                                 marginLeft: "auto",

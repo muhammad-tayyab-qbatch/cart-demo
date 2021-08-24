@@ -1,18 +1,16 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from '../../axios-config';
+//import config from '../../axios-config';
 
 export const getProductsFromApi = createAsyncThunk(
     'fetching-products',
     async (data, thunkAPI) => {
         try {
-            const res = await axios.get('http://localhost:8000/products');
-           //const res = await axios.get('https://fakestoreapi.com/products');
-           //console.log(res.data);
-           return res.data;
+            const res = await axios.get('/products');
+            return res.data;
         } catch (e) {
             return thunkAPI.rejectWithValue(e.message);
         }
-
     }
 )
 

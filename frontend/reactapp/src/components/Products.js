@@ -19,7 +19,12 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
+    grid: {
+        width: "100%",
+        margin: "0px"
+    }
 }));
+
 const Products = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -30,19 +35,18 @@ const Products = () => {
     if (productList.length) {
         return (
             < div className={classes.root} >
-                <Grid container spacing={10} style={{width: "100%", margin: "0px"}}>
+                <Grid container spacing={10} className={classes.grid} >
                     {
-                        productList.map((item) => (
+                        productList.map(({ _id, name, price, imageUrl }) => (
                             <Grid container item xs={3} >
                                 <Paper className={classes.paper}>
-                                    <ProductCard _id={item._id} name={item.name} price={item.price} src={item.imageUrl} />
+                                    <ProductCard _id={_id} name={name} price={price} src={imageUrl} />
                                 </Paper>
                             </Grid>
                         ))
                     }
                 </Grid>
             </div >
-
         )
     } else {
         return <h1>Loading...............</h1>

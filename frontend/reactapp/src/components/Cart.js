@@ -32,12 +32,13 @@ const Cart = () => {
     const classes = useStyles();
     const { cartList } = useSelector((state) => state.cart);
     const dispatch = useDispatch();
+
     useEffect(() => { dispatch(getCartItemsFromApi()) }, []);
 
     return (
         <div>
             <Card className={classes.root} style={{ display: "flex" }}>
-                {/* <CardActionArea > */}
+
                 <CardContent style={{ display: "flex", width: "-webkit-fill-available" }}>
                     <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}>
                         Name
@@ -47,44 +48,28 @@ const Cart = () => {
                         Item Price
                     </Typography>
 
-                    <Typography gutterBottom variant="h5" component="h4"
-                        style={{    
-                            width: '350px'
-                        }}
-                    >
+                    <Typography gutterBottom variant="h5" component="h4" style={{ width: '350px' }} >
                         Quantity
                     </Typography>
 
-                    <Typography gutterBottom variant="h5" component="h5" className={classes.typographyStyle}
-                        // style={{
-                        //     width: '500px'
-                        // }}
-                    >
+                    <Typography gutterBottom variant="h5" component="h5" className={classes.typographyStyle}>
                         Total Price
                     </Typography>
-
-                    {/* <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}
-                        
-                        >
-                        Remove Item
-                    </Typography> */}
-
                 </CardContent>
-                {/* </CardActionArea> */}
+
                 <Typography gutterBottom variant="h5" component="h6" className={classes.typographyStyle}
                     style={{
                         marginTop: '10px'
                     }}>
                     Remove Item
                 </Typography>
+
             </Card>
             <div>
                 {
-                    cartList.map((item) => (
-                        // <Paper className={classes.paper}>
-                        <CartItem cartId={item._id} productId={item.productId} productName={item.productName} productPrice={item.productPrice} quantity={item.quantity} src={item.productImageUrl} />
-                        // </Paper>
-                    ))
+                    cartList.map(({ _id, productId, productName, productPrice, quantity, productImageUrl }) =>
+                        <CartItem cartId={_id} productId={productId} productName={productName} productPrice={productPrice} quantity={quantity} src={productImageUrl} />
+                    )
                 }
             </div>
 

@@ -1,6 +1,4 @@
 const express = require('express');
-var mongoose = require('mongoose');
-const { find } = require('../models/cart');
 const router = new express.Router();
 const Cart = require('../models/cart');
 const Product = require('../models/product');
@@ -20,19 +18,6 @@ router.get('/cart', async (req, res) => {
             };
             finalResult.push({ _id: _id, quantity: quantity, ...tempProduct });
         }
-        // const finalResult = await Promise.all(result.map(async (item) => {
-        //     try {
-        //         const { _id, productId } = item;
-        //         console.log(`id is ${_id} and pro id is ${productId}`);
-        //         const product = await Product.find({ _id: productId });
-        //         console.log(`pro is ${product}`);
-        //         return { _id, ...product };
-        //     } catch (e) {
-        //         console.log(`error ${error}`)
-        //     }
-
-        // }));
-        //console.log(`finalResult is ${finalResult[0]}`);
         res.status(200).send(finalResult);
     } catch (e) {
         res.status(404).send(e.message);
@@ -41,11 +26,10 @@ router.get('/cart', async (req, res) => {
 
 router.delete('/cart/:id', async (req, res) => {
     const { id } = req.params;
-    try{
+    try {
         const result = await Cart.findByIdAndDelete(id);
-        //console.log(result);
         res.status(200).send(result);
-    }catch(e){
+    } catch (e) {
         res.send(e.message);
     }
 })
