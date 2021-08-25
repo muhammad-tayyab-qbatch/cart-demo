@@ -11,7 +11,7 @@ const Navbar = () => {
     return (
         <div className="navbar-div">
             <AppBar position="static" color="default">
-                <Tabs >
+                <Tabs value={1}>
                     <NavLink exact to="/">
                         <Tab label="Products" />
                     </NavLink>

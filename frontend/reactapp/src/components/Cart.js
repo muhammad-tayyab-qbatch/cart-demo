@@ -68,7 +68,7 @@ const Cart = () => {
             <div>
                 {
                     cartList.map(({ _id, productId, productName, productPrice, quantity, productImageUrl }) =>
-                        <CartItem cartId={_id} productId={productId} productName={productName} productPrice={productPrice} quantity={quantity} src={productImageUrl} />
+                        <CartItem key={_id.toString()} cartId={_id} productId={productId} productName={productName} productPrice={productPrice} quantity={quantity} src={productImageUrl} />
                     )
                 }
             </div>
