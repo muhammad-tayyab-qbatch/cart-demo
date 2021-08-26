@@ -13,17 +13,15 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 250,
         paddingTop: '30px',
         paddingLeft: '60px',
-        paddingRight: '60px'
-
-    },
-    media: {
-        height: 50,
+        paddingRight: '60px',
+        display: 'flex'
     },
     typographyStyle: {
         width: '200px'
     },
-    paper: {
-        color: theme.palette.text.secondary,
+    cardContent: {
+        display: "flex",
+        width: "-webkit-fill-available"
     }
 }));
 
@@ -37,9 +35,9 @@ const Cart = () => {
 
     return (
         <div>
-            <Card className={classes.root} style={{ display: "flex" }}>
+            <Card className={classes.root} >
 
-                <CardContent style={{ display: "flex", width: "-webkit-fill-available" }}>
+                <CardContent className={classes.cardContent} >
                     <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}>
                         Name
                     </Typography>

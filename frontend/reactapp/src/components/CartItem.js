@@ -15,14 +15,18 @@ const useStyles = makeStyles({
         minWidth: 250,
         paddingTop: '30px',
         paddingLeft: '60px',
-        paddingRight: '60px'
-
+        paddingRight: '60px',
+        display: 'flex'
     },
     media: {
         height: 50,
     },
     typographyStyle: {
         width: '200px'
+    },
+    cardContent: {
+        display: "flex",
+        width: "-webkit-fill-available"
     }
 });
 
@@ -30,7 +34,6 @@ const CartItem = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { cartId, productId, productName, productPrice, quantity, src } = props;
-    const [count, setCount] = useState(quantity);
 
     const handleChange = (e) => {
         if (!e.target.value || e.target.value === "0") {
@@ -43,14 +46,13 @@ const CartItem = (props) => {
     }
     return (
         <div>
-
-            <Card className={classes.root} style={{ display: "flex" }}>
-                <CardContent style={{ display: "flex", width: "-webkit-fill-available" }}>
+            <Card className={classes.root}>
+                <CardContent className={classes.cardContent} >
                     <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle} >
                         {productName}
                     </Typography>
 
-                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle}>
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.typographyStyle} >
                         Rs. {productPrice}
                     </Typography>
 

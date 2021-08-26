@@ -34,13 +34,4 @@ router.patch('/products/:id', async (req, res) => {
         res.status(400).send(e);
     }
 })
-router.get('/products/:id', async (req, res) => {
-    const { id } = req.params;
-    try{
-        const result = await Product.findById(id);
-        res.status(200).send(result);
-    }catch(e){
-        res.status(404).send(e.message);
-    }
-})
 module.exports = router;

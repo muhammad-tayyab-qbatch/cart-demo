@@ -24,9 +24,9 @@ const useStyles = makeStyles({
   },
 });
 
-const ProductCard = (props) => {
+const ProductCard = ({ _id, name, price, src }) => {
   const classes = useStyles();
-  const { _id, name, price, src } = props;
+  //const { _id, name, price, src } = props;
   const dispatch = useDispatch();
 
   const handleOnClick = () => {

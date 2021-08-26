@@ -17,16 +17,12 @@ module.exports = {
             {
                 test: /\.?js$/,
                 exclude: /(node_modules)/,
-                use:{
-                    loader: "babel-loader",
-                    options: {
-                        presets: ['@babel/preset-env', '@babel/preset-react']
-                    }
+                use: {
+                    loader: "babel-loader"
                 }
-                
             },
             {
-                test: /\.css$/i,
+                test: /\.css$/,
                 use: ["style-loader", "css-loader"],
             },
             {
@@ -34,7 +30,6 @@ module.exports = {
                 exclude: /node_modules/,
                 use: ['file-loader?name=[name].[ext]'] // ?name=[name].[ext] is only necessary to preserve the original file name
             }
-
         ]
     },
     plugins: [

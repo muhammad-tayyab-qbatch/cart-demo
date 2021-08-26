@@ -15,9 +15,9 @@ export const getCartItemsFromApi = createAsyncThunk(
 
 export const addAndUpdateToCart = createAsyncThunk(
     'add/update-item-to-cart',
-    async (data, { getState, rejectWithValue }) => {
+    async ({ productId, quantity }, { getState, rejectWithValue }) => {
         try {
-            const { productId, quantity } = data;
+            //const { productId, quantity } = data;
             const { cart } = getState();
             var item = cart && cart.cartList.find(obj => obj.productId === productId);
             if (item) {
@@ -37,8 +37,8 @@ export const addAndUpdateToCart = createAsyncThunk(
 
 export const removeCartItem = createAsyncThunk(
     'delete-item-from-cart',
-    async (data, { rejectWithValue }) => {
-        const { cartId } = data;
+    async ({ cartId }, { rejectWithValue }) => {
+       // const { cartId } = data;
         try {
             const res = await axios.delete(`/cart/${cartId}`);
             return res.data;

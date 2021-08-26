@@ -1,10 +1,8 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppBar, Tabs, Tab, IconButton, Badge } from '@material-ui/core';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-
-import { NavLink } from 'react-router-dom';
-
 
 const Navbar = () => {
     const { itemCount } = useSelector((state) => state.cart);
@@ -28,7 +26,6 @@ const Navbar = () => {
                     </NavLink>
 
                 </Tabs>
-
             </AppBar>
         </div >
     )
