@@ -14,7 +14,8 @@ router.get('/cart', async (req, res) => {
                 productId: product._id,
                 productName: product.name,
                 productPrice: product.price,
-                productImageUrl: product.imageUrl
+                productImageUrl: product.imageUrl,
+                productDescription: product.description
             };
             finalResult.push({ _id: _id, quantity: quantity, ...tempProduct });
         }

@@ -3,7 +3,7 @@ import axios from '../../axios-config';
 
 export const getProductsFromApi = createAsyncThunk(
     'fetching-products',
-    async (data, {rejectWithValue}) => {
+    async (data, { rejectWithValue }) => {
         try {
             const res = await axios.get('/products');
             return res.data;
@@ -12,9 +12,22 @@ export const getProductsFromApi = createAsyncThunk(
         }
     }
 )
+export const getSelectedProduct = createAsyncThunk(
+    'get-product-by-id',
+    async ({ _id }, { rejectWithValue }) => {
+        try {
+            const res = await axios.get(`/products/${_id}`);
+            return res.data;
+        } catch (e) {
+            return rejectWithValue(e.message);
+        }
+    }
+)
 
 const initialState = {
-    productList: []
+    productList: [],
+    selectedProduct: {},
+    error: {}
 }
 const productSlice = createSlice({
     name: 'product',
@@ -35,7 +48,20 @@ const productSlice = createSlice({
         },
         [getProductsFromApi.pending]: (state, action) => {
             //console.log({ state, action })
+        },
+        [getSelectedProduct.fulfilled]: (state, action) => {
+            return {
+                ...state,
+                selectedProduct: action.payload
+            }
+        },
+        [getSelectedProduct.rejected]: (state, action) => {
+            return {
+                ...state,
+                error: action.payload
+            }
         }
+
     }
 })
 

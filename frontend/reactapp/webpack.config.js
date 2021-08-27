@@ -38,13 +38,11 @@ module.exports = {
             title: 'Development',
             template: './public/index.html',
         }),
-
     ],
     devServer: {
         host: 'localhost',
         port: 5000,
         open: true,
         historyApiFallback: true,
-
     },
 }

@@ -12,6 +12,16 @@ router.get('/products', async (req, res) => {
     }
 })
 
+router.get('/products/:id', async (req, res) => {
+    try{
+        const { id } = req.params;
+        const result = await Product.findById(id);
+        res.status(200).send(result);
+    }catch(e){
+        res.status(404).send(e.message);
+    }
+})
+
 router.post('/products', async (req, res) => {
     try {
         const cartItem = new Cart(req.body);
@@ -24,7 +34,7 @@ router.post('/products', async (req, res) => {
 
 router.patch('/products/:id', async (req, res) => {
     try{
-        const id = req.params.id;
+        const { id } = req.params;
         const cartItem = new Cart(req.body);
         const result = await Cart.findOneAndUpdate({ productId: id }, req.body, {
             new: true
