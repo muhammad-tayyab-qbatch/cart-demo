@@ -6,9 +6,9 @@ import {
     Switch,
 } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { 
+import {
     makeStyles,
-    Paper, 
+    Paper,
     Grid
 } from '@material-ui/core';
 import ProductCard from './ProductCard';
@@ -16,7 +16,7 @@ import ProductDescription from './ProductDescription';
 import Error from './Error';
 import { getProductsFromApi, getSelectedProduct } from '../redux/slices/productSlice';
 import { getCartItemsFromApi } from '../redux/slices/cartSlice';
-
+import { setCookie, getCookie } from '../Helper/helperFunction';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -39,14 +39,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
 const Products = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { productList } = useSelector((state) => state.product);
     useEffect(() => {
         dispatch(getProductsFromApi());
-        dispatch(getCartItemsFromApi());
-        
+        dispatch(getCartItemsFromApi({ userId: getCookie('userId') }));
     }, []);
 
     const { path, url } = useRouteMatch();
@@ -81,7 +81,7 @@ const Products = () => {
             </div>
         )
     } else {
-        return <h1 style={{textAlign:'center'}}>Loading...............</h1>
+        return <h1 style={{ textAlign: 'center' }}>Loading...............</h1>
     }
 }
 

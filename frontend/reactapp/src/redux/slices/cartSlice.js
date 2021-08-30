@@ -3,9 +3,10 @@ import axios from '../../axios-config';
 
 export const getCartItemsFromApi = createAsyncThunk(
     'get-cart-items',
-    async (data, { rejectWithValue }) => {
+    async ({userId}, { rejectWithValue }) => {
         try {
-            const res = await axios.get('/cart');
+            console.log(`getCartItemsFromApi ${userId}`)
+            const res = await axios.get(`/cart/${userId}`);
             return res.data;
         } catch (e) {
             return rejectWithValue(e.message);
@@ -15,16 +16,21 @@ export const getCartItemsFromApi = createAsyncThunk(
 
 export const addAndUpdateToCart = createAsyncThunk(
     'add/update-item-to-cart',
-    async ({ productId, quantity }, { getState, rejectWithValue }) => {
+    async ({ productId, quantity, userId }, { getState, rejectWithValue }) => {
         try {
             const { cart } = getState();
-            var item = cart && cart.cartList.find(obj => obj.productId === productId);
+            var item = cart.cartList && cart.cartList.find(obj => {
+                if(obj.productId === productId && obj.userId === userId){
+                    return obj;
+                }
+            });
+            console.log(item);
             if (item) {
                 const res = await axios.patch(`/products/${productId}`, { quantity: item.quantity + quantity });
                 return { response: res.data, quantity };
             }
             else {
-                const res = await axios.post('/products', { productId: productId, quantity: quantity });
+                const res = await axios.post('/products', { productId: productId, quantity: quantity, userId: userId });
                 return { response: res.data };
 
             }
@@ -55,7 +61,7 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        increment(state, action) {
+        clearState(state, action) {
             state.count += 1;
         }
     },
@@ -73,7 +79,7 @@ const cartSlice = createSlice({
             }
         },
         [addAndUpdateToCart.fulfilled]: (state, action) => {
-            const { _id, productId, quantity } = action.payload.response;
+            const { _id, productId, quantity, userId } = action.payload.response;
             let { cartList, itemCount } = state;
             const index = cartList.findIndex(item => item._id === _id);
             if (index !== -1) {
@@ -83,7 +89,7 @@ const cartSlice = createSlice({
             else {
                 return {
                     ...state,
-                    cartList: [...state.cartList, { _id: _id, productId: productId, quantity: quantity }],
+                    cartList: [...state.cartList, { _id: _id, productId: productId, quantity: quantity, userId: userId }],
                     itemCount: itemCount + 1
                 }
             }
@@ -102,5 +108,5 @@ const cartSlice = createSlice({
 
 })
 
-export const { increment } = cartSlice.actions;
+export const { clearState } = cartSlice.actions;
 export default cartSlice.reducer;

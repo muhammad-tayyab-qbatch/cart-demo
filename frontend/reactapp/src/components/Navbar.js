@@ -9,9 +9,12 @@ const Navbar = () => {
     return (
         <div className="navbar-div">
             <AppBar position="static" color="default">
-                <Tabs value={1}>
+                <Tabs >
                     <NavLink to="/products">
                         <Tab label="Products" />
+                    </NavLink>
+                    <NavLink to="/signup">
+                        <Tab label="SignUp" />
                     </NavLink>
                     <NavLink to="/cart" style={{ display: "contents" }}>
                         <IconButton aria-label="show Cart Items" color="inherit"

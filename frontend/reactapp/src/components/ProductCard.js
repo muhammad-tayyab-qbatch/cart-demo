@@ -10,8 +10,9 @@ import {
   Button,
   Typography
 } from '@material-ui/core';
-
+import cryptoRandomString from 'crypto-random-string';
 import { addAndUpdateToCart } from '../redux/slices/cartSlice';
+import { setCookie, getCookie } from '../Helper/helperFunction';
 
 const useStyles = makeStyles({
   root: {
@@ -26,14 +27,24 @@ const useStyles = makeStyles({
   },
 });
 
+
 const ProductCard = ({ _id, name, price, src }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleOnClick = () => {
-    dispatch(addAndUpdateToCart({ productId: _id, quantity: 1 }))
+    const userId = getCookie("userId");
+    if(userId){
+      dispatch(addAndUpdateToCart({ productId: _id, quantity: 1, userId: userId }));
+    }
+    else{
+     // console.log(`no cookie`);
+      const randomTocken = cryptoRandomString({length: 10});
+      setCookie('userId', randomTocken);
+      dispatch(addAndUpdateToCart({ productId: _id, quantity: 1, userId: randomTocken }));
+    }    
   }
-
+  
   return (
     <Card className={classes.root}>
       <CardActionArea>

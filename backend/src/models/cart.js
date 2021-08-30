@@ -10,6 +10,11 @@ const cartSchema = mongoose.Schema({
         type: Number,
         required: true,
         minlength: 2
+    },
+    userId: {
+        type: String,
+        required: true,
+        unique: true
     }
 })
 

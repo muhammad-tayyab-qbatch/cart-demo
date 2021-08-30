@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import CartItem from './CartItem';
 import { getCartItemsFromApi } from '../redux/slices/cartSlice';
-
+import { setCookie, getCookie } from '../Helper/helperFunction';
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: 250,
@@ -32,7 +32,7 @@ const Cart = () => {
     const { cartList } = useSelector((state) => state.cart);
     const dispatch = useDispatch();
 
-    useEffect(() => { dispatch(getCartItemsFromApi()) }, []);
+    useEffect(() => { dispatch(getCartItemsFromApi({userId: getCookie('userId')})) }, []);
 
     return (
         <div>

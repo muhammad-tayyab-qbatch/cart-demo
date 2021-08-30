@@ -3,12 +3,13 @@ const router = new express.Router();
 const Cart = require('../models/cart');
 const Product = require('../models/product');
 
-router.get('/cart', async (req, res) => {
+router.get('/cart/:id', async (req, res) => {
     try {
-        const result = await Cart.find();
+        const { id } = req.params;
+        const result = await Cart.find({ userId: id });
         const finalResult = [];
         for (const item in result) {
-            const { _id, productId, quantity } = result[item];
+            const { _id, productId, quantity, userId } = result[item];
             const product = await Product.findById(productId);
             const tempProduct = {
                 productId: product._id,
@@ -17,7 +18,7 @@ router.get('/cart', async (req, res) => {
                 productImageUrl: product.imageUrl,
                 productDescription: product.description
             };
-            finalResult.push({ _id: _id, quantity: quantity, ...tempProduct });
+            finalResult.push({ _id: _id, quantity: quantity, userId: userId, ...tempProduct });
         }
         res.status(200).send(finalResult);
     } catch (e) {
