@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 require('./db/connection');
-const Product = require('./models/product');
 const productRouter = require('./routers/product');
 const cartRouter = require('./routers/cart');
 

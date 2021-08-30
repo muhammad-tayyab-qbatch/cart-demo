@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-
+import {
+    makeStyles,
+    Card,
+    CardContent,
+    Typography
+} from '@material-ui/core';
 import CartItem from './CartItem';
 import { getCartItemsFromApi } from '../redux/slices/cartSlice';
 

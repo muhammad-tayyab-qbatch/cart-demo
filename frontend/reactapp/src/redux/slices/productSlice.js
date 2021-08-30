@@ -36,11 +36,11 @@ const productSlice = createSlice({
         [getProductsFromApi.fulfilled]: (state, action) => {
             return {
                 ...state,
-                productList: action.payload
+                productList: action.payload,
+                error: null
             }
         },
         [getProductsFromApi.rejected]: (state, action) => {
-
             return {
                 ...state,
                 error: action.payload
@@ -52,16 +52,17 @@ const productSlice = createSlice({
         [getSelectedProduct.fulfilled]: (state, action) => {
             return {
                 ...state,
-                selectedProduct: action.payload
+                selectedProduct: action.payload,
+                error: null
             }
         },
         [getSelectedProduct.rejected]: (state, action) => {
             return {
                 ...state,
+                selectedProduct: null,
                 error: action.payload
             }
         }
-
     }
 })
 

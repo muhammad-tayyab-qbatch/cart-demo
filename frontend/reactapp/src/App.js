@@ -12,9 +12,10 @@ function App() {
       <Navbar />
         <main>
           <Switch>
-            <Route path={['/products','/products/des/:id']} component={ Products } />
+            <Route path='/products' component={ Products } />
             <Route exact path='/cart' component={ Cart } />
             <Route exact path='/error' component={Error} />
+            <Redirect exact from='/' to='/products'></Redirect>
             <Redirect from="*" to="/error"></Redirect>
           </Switch>
         </main>
