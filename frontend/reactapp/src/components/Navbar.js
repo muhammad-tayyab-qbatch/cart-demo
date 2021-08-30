@@ -13,6 +13,9 @@ const Navbar = () => {
                     <NavLink to="/products">
                         <Tab label="Products" />
                     </NavLink>
+                    <NavLink to="/signin">
+                        <Tab label="SignIn" />
+                    </NavLink>
                     <NavLink to="/signup">
                         <Tab label="SignUp" />
                     </NavLink>
