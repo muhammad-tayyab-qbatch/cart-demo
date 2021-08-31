@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as EmailValidator from 'email-validator';
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +14,19 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+import { registerUser, clearState } from '../redux/slices/userSlice';
+
+function Message() {
+  return (
+    <Typography variant="body2" align="center">
+      {'Congratulation You are registered...'}
+      <Link to='/signin' variant="body2">
+        Click Here to Sign in
+      </Link>
+    </Typography>
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,19 +50,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const { isRegistered, isloading } = useSelector((state) => state.user);
+  useEffect(() => {
+    dispatch(clearState());
+  }, [])
 
   async function handleSubmit(event) {
     event.preventDefault();
-    console.log(name);
-    // setIsLoading(true);
+    dispatch(registerUser({ name, email, password }));
 
-    // setNewUser("test");
-
-    // setIsLoading(false);
   }
 
   function validateForm() {
@@ -58,6 +75,7 @@ export default function SignUp() {
       password === confirmPassword
     );
   }
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -138,16 +156,20 @@ export default function SignUp() {
           >
             Sign Up
           </Button>
-          <Grid container justifyContent="flex-end">
+          {/* <Grid container justifyContent="flex-end">
             <Grid item>
               <Link to='/signin' variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
-          </Grid>
+          </Grid> */}
         </form>
       </div>
-
+      <Box mt={5}>
+        {isRegistered && <Message />}
+      </Box>
     </Container>
   );
+
+
 }

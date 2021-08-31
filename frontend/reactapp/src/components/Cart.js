@@ -29,10 +29,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Cart = () => {
     const classes = useStyles();
-    const { cartList } = useSelector((state) => state.cart);
     const dispatch = useDispatch();
+    const { cartList } = useSelector((state) => state.cart);
+    const { auth, email } = useSelector((state) => state.user);
+    
 
-    useEffect(() => { dispatch(getCartItemsFromApi({userId: getCookie('userId')})) }, []);
+    useEffect(() => { 
+        const userId = auth ? email : getCookie('userId') ? getCookie('userId') : null;
+        if (userId) {
+            dispatch(getCartItemsFromApi({ userId: userId }));
+        }
+    }, []);
 
     return (
         <div>

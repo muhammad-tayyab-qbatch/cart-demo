@@ -20,11 +20,10 @@ export const addAndUpdateToCart = createAsyncThunk(
         try {
             const { cart } = getState();
             var item = cart.cartList && cart.cartList.find(obj => {
-                if(obj.productId === productId && obj.userId === userId){
+                if(obj.productId === productId){
                     return obj;
                 }
             });
-            console.log(item);
             if (item) {
                 const res = await axios.patch(`/products/${productId}`, { quantity: item.quantity + quantity });
                 return { response: res.data, quantity };
@@ -62,7 +61,10 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         clearState(state, action) {
-            state.count += 1;
+            return {
+                cartList: [],
+                itemCount: 0
+            }
         }
     },
     extraReducers: {

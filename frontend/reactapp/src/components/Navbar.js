@@ -1,11 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { AppBar, Tabs, Tab, IconButton, Badge } from '@material-ui/core';
+import jwt_decode from "jwt-decode";
+import { useSelector, useDispatch } from 'react-redux';
+import { AppBar, Tabs, Tab, IconButton, Badge, Button } from '@material-ui/core';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+import { getCookie, setCookie }from '../Helper/helperFunction';
+import { getCartItemsFromApi, clearState as clearCart } from '../redux/slices/cartSlice'; 
+import { clearState as clearUser, getUser } from '../redux/slices/userSlice';
+
 
 const Navbar = () => {
+    const dispatch = useDispatch();
     const { itemCount } = useSelector((state) => state.cart);
+    const { auth, token } = useSelector((state) => state.user);
+    const [isUserLogin, setIsUserLogin] = useState(false);
+    useEffect(() => {
+        const tokenFromCookie = getCookie('token');
+        if (tokenFromCookie) setIsUserLogin(true)
+    }, [])
+
+    useEffect(() => {
+        if(auth && token) {
+            setIsUserLogin(true);
+        }
+    }, [token])
+
+    useEffect(() => {
+        if(isUserLogin){
+            const tokenFromCookie = getCookie('token');
+            const decodedToken = jwt_decode(tokenFromCookie);
+            dispatch(getCartItemsFromApi({ userId: decodedToken.email }));
+            console.log(`token is ${tokenFromCookie}`);
+            dispatch(getUser({token: tokenFromCookie}));
+        }
+    },[isUserLogin])
+
+    const logout = () => {
+        setCookie("token", "");
+        setIsUserLogin(false);
+        dispatch(clearCart());
+        dispatch(clearUser());
+    }
     return (
         <div className="navbar-div">
             <AppBar position="static" color="default">
@@ -13,12 +48,15 @@ const Navbar = () => {
                     <NavLink to="/products">
                         <Tab label="Products" />
                     </NavLink>
-                    <NavLink to="/signin">
+                    {!isUserLogin && <NavLink to="/signin">
                         <Tab label="SignIn" />
-                    </NavLink>
-                    <NavLink to="/signup">
+                    </NavLink>}
+                    {!isUserLogin && <NavLink to="/signup">
                         <Tab label="SignUp" />
-                    </NavLink>
+                    </NavLink>}
+                    {isUserLogin && <Button onClick={logout}>
+                        <Tab label="Logout" />
+                    </Button>}
                     <NavLink to="/cart" style={{ display: "contents" }}>
                         <IconButton aria-label="show Cart Items" color="inherit"
                             style={{

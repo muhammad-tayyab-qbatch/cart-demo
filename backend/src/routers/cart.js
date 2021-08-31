@@ -3,7 +3,7 @@ const router = new express.Router();
 const Cart = require('../models/cart');
 const Product = require('../models/product');
 
-router.get('/cart/:id', async (req, res) => {
+router.get('/cart/:id',  async (req, res) => {
     try {
         const { id } = req.params;
         const result = await Cart.find({ userId: id });

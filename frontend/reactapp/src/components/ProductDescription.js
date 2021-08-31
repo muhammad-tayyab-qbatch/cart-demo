@@ -37,6 +37,7 @@ const ProductDescription = () => {
     }, [])
 
     const { selectedProduct, error } = useSelector((state) => state.product);
+    
     if (selectedProduct) {
         return (
             <Card className={classes.root}>

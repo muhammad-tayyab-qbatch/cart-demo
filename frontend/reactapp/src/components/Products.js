@@ -44,9 +44,13 @@ const Products = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { productList } = useSelector((state) => state.product);
+    const { auth, email } = useSelector((state) => state.user);
     useEffect(() => {
         dispatch(getProductsFromApi());
-        dispatch(getCartItemsFromApi({ userId: getCookie('userId') }));
+        const userId = auth ? email : getCookie('userId') ? getCookie('userId') : null;
+        if (userId) {
+            dispatch(getCartItemsFromApi({ userId: userId }));
+        }
     }, []);
 
     const { path, url } = useRouteMatch();

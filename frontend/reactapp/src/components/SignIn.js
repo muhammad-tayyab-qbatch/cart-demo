@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as EmailValidator from 'email-validator';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { setCookie, getCookie } from '../Helper/helperFunction';
+import { loginUser } from '../redux/slices/userSlice';
+
+
 
 //https://serverless-stack.com/chapters/create-the-signup-form.html
 const useStyles = makeStyles((theme) => ({
@@ -35,16 +40,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { auth, token } = useSelector((state) => state.user);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   async function handleSubmit(event) {
     event.preventDefault();
-    // setIsLoading(true);
-
-    // setNewUser("test");
-
-    // setIsLoading(false);
+    const userId = getCookie('userId');
+    if (userId) {
+      dispatch(loginUser({
+        email,
+        password,
+        userId
+      }))
+    } else {
+      dispatch(loginUser({ email, password }))
+    }
   }
 
   function validateForm() {
@@ -52,6 +65,12 @@ export default function SignIn() {
       EmailValidator.validate(email) &&
       password.length > 0
     );
+  }
+  if (auth) {
+    setCookie('userId', '');
+    setCookie('token', token);
+
+    history.push('/products');
   }
   return (
     <Container component="main" maxWidth="xs">
@@ -104,6 +123,7 @@ export default function SignIn() {
           >
             Sign In
           </Button>
+
           <Grid container justifyContent="flex-end">
             {/* <Grid item xs>
               <Link href="#" variant="body2">
@@ -121,4 +141,5 @@ export default function SignIn() {
 
     </Container>
   );
+
 }

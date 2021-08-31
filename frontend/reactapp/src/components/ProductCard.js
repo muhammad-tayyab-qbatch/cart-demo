@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   makeStyles,
   Card,
@@ -31,10 +31,13 @@ const useStyles = makeStyles({
 const ProductCard = ({ _id, name, price, src }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
+  const { auth, email } = useSelector((state) => state.user);
   const handleOnClick = () => {
     const userId = getCookie("userId");
-    if(userId){
+    if(auth){
+      dispatch(addAndUpdateToCart({ productId: _id, quantity: 1, userId: email }));
+    }
+    else if(userId){
       dispatch(addAndUpdateToCart({ productId: _id, quantity: 1, userId: userId }));
     }
     else{
