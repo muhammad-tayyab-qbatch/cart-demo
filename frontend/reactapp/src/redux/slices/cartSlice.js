@@ -3,10 +3,13 @@ import axios from '../../axios-config';
 
 export const getCartItemsFromApi = createAsyncThunk(
     'get-cart-items',
-    async ({userId}, { rejectWithValue }) => {
+    async ({ token }, { rejectWithValue }) => {
         try {
-            console.log(`getCartItemsFromApi ${userId}`)
-            const res = await axios.get(`/cart/${userId}`);
+            const res = await axios.get('/cart', {
+                headers: {
+                    'authorization': `bearer ${token}`
+                }
+            });
             return res.data;
         } catch (e) {
             return rejectWithValue(e.message);
@@ -19,11 +22,8 @@ export const addAndUpdateToCart = createAsyncThunk(
     async ({ productId, quantity, userId }, { getState, rejectWithValue }) => {
         try {
             const { cart } = getState();
-            var item = cart.cartList && cart.cartList.find(obj => {
-                if(obj.productId === productId){
-                    return obj;
-                }
-            });
+            const item = cart.cartList && cart.cartList.find(obj => obj.productId === productId);
+            
             if (item) {
                 const res = await axios.patch(`/products/${productId}`, { quantity: item.quantity + quantity });
                 return { response: res.data, quantity };

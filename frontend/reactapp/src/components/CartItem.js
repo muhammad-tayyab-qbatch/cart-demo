@@ -9,7 +9,6 @@ import {
     IconButton,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-
 import { removeCartItem, addAndUpdateToCart } from '../redux/slices/cartSlice';
 
 const useStyles = makeStyles({
@@ -46,6 +45,7 @@ const CartItem = (props) => {
             dispatch(addAndUpdateToCart({ productId: productId, quantity: total }));
         }
     }
+    
     return (
         <div>
             <Card className={classes.root}>

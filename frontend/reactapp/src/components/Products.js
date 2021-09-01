@@ -16,7 +16,7 @@ import ProductDescription from './ProductDescription';
 import Error from './Error';
 import { getProductsFromApi, getSelectedProduct } from '../redux/slices/productSlice';
 import { getCartItemsFromApi } from '../redux/slices/cartSlice';
-import { setCookie, getCookie } from '../Helper/helperFunction';
+import { getCookie } from '../Helper/helperFunction';
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -45,15 +45,16 @@ const Products = () => {
     const dispatch = useDispatch();
     const { productList } = useSelector((state) => state.product);
     const { auth, email } = useSelector((state) => state.user);
+    const { path, url } = useRouteMatch();
+
     useEffect(() => {
         dispatch(getProductsFromApi());
-        const userId = auth ? email : getCookie('userId') ? getCookie('userId') : null;
-        if (userId) {
-            dispatch(getCartItemsFromApi({ userId: userId }));
+        const tokenFromCookie = auth ? email : getCookie('userId') ? getCookie('userId') : null;
+        if (tokenFromCookie) {
+            dispatch(getCartItemsFromApi({ token: tokenFromCookie }));
         }
     }, []);
 
-    const { path, url } = useRouteMatch();
     if (productList.length) {
         return (
             <div className={classes.root}>

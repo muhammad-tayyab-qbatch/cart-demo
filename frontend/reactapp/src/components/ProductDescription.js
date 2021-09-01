@@ -9,8 +9,6 @@ import {
     Typography,
     makeStyles
 } from '@material-ui/core';
-
-
 import { getSelectedProduct } from '../redux/slices/productSlice'
 
 const useStyles = makeStyles({
@@ -30,14 +28,13 @@ const useStyles = makeStyles({
 const ProductDescription = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { selectedProduct, error } = useSelector((state) => state.product);
     const { id } = useParams();
 
     useEffect(() => {
         dispatch(getSelectedProduct({ _id: id }));
     }, [])
 
-    const { selectedProduct, error } = useSelector((state) => state.product);
-    
     if (selectedProduct) {
         return (
             <Card className={classes.root}>

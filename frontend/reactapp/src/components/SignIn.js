@@ -43,6 +43,7 @@ export default function SignIn() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { auth, token } = useSelector((state) => state.user);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -66,12 +67,13 @@ export default function SignIn() {
       password.length > 0
     );
   }
+  
   if (auth) {
     setCookie('userId', '');
     setCookie('token', token);
-
     history.push('/products');
   }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

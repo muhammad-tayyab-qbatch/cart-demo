@@ -31,10 +31,9 @@ export const getUser = createAsyncThunk(
         try {
             const res = await axios.get('/user', {
                 headers: {
-                    'Authorization': `bearer ${token}`
+                    'authorization': `bearer ${token}`
                 }
             });
-            console.log('in getUSer', res.data);
             return res.data;
         } catch (e) {
             return rejectWithValue(e.message);
@@ -104,6 +103,7 @@ const userSlice = createSlice({
             return {
                 ...state,
                 auth: action.payload.auth,
+                token: action.payload.token,
                 userId: action.payload.user._id,
                 name: action.payload.user.name,
                 email: action.payload.user.email,
@@ -119,25 +119,25 @@ const userSlice = createSlice({
                 error: action.payload
 
             }
-        }
-        // [getUser.pending]: (state, action) => {
-        //     return {
-        //         ...state,
-        //         isloading: true
-        //     }
-        // },
-        // [getUser.fulfilled]: (state, action) => {
-        //     return {
-        //         ...state,
-        //         auth: action.payload.auth,
-        //         token: action.payload.token,
-        //         userId: action.payload.user._id,
-        //         name: action.payload.user.name,
-        //         email: action.payload.user.email,
-        //         password: action.payload.user.password,
-        //         isloading: false
-        //     }
-        // },
+        },
+        [getUser.pending]: (state, action) => {
+            return {
+                ...state,
+                isloading: true
+            }
+        },
+        [getUser.fulfilled]: (state, action) => {
+            return {
+                ...state,
+                auth: action.payload.auth,
+                 token: action.payload.token,
+                userId: action.payload.user._id,
+                name: action.payload.user.name,
+                email: action.payload.user.email,
+                password: action.payload.user.password,
+                isloading: false
+            }
+        },
 
 
     }

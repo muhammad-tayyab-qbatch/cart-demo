@@ -9,6 +9,7 @@ import {
 import CartItem from './CartItem';
 import { getCartItemsFromApi } from '../redux/slices/cartSlice';
 import { setCookie, getCookie } from '../Helper/helperFunction';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: 250,
@@ -33,11 +34,10 @@ const Cart = () => {
     const { cartList } = useSelector((state) => state.cart);
     const { auth, email } = useSelector((state) => state.user);
     
-
     useEffect(() => { 
-        const userId = auth ? email : getCookie('userId') ? getCookie('userId') : null;
-        if (userId) {
-            dispatch(getCartItemsFromApi({ userId: userId }));
+        const tokenFromCookie = auth ? email : getCookie('userId') ? getCookie('userId') : null;
+        if (tokenFromCookie) {
+            dispatch(getCartItemsFromApi({ token: tokenFromCookie }));
         }
     }, []);
 

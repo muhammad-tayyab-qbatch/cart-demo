@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import jwt_decode from "jwt-decode";
 import { useSelector, useDispatch } from 'react-redux';
 import { AppBar, Tabs, Tab, IconButton, Badge, Button } from '@material-ui/core';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
@@ -8,15 +7,17 @@ import { getCookie, setCookie }from '../Helper/helperFunction';
 import { getCartItemsFromApi, clearState as clearCart } from '../redux/slices/cartSlice'; 
 import { clearState as clearUser, getUser } from '../redux/slices/userSlice';
 
-
 const Navbar = () => {
     const dispatch = useDispatch();
     const { itemCount } = useSelector((state) => state.cart);
     const { auth, token } = useSelector((state) => state.user);
     const [isUserLogin, setIsUserLogin] = useState(false);
+    
     useEffect(() => {
         const tokenFromCookie = getCookie('token');
-        if (tokenFromCookie) setIsUserLogin(true)
+        if (tokenFromCookie){
+            setIsUserLogin(true);
+        } 
     }, [])
 
     useEffect(() => {
@@ -28,9 +29,7 @@ const Navbar = () => {
     useEffect(() => {
         if(isUserLogin){
             const tokenFromCookie = getCookie('token');
-            const decodedToken = jwt_decode(tokenFromCookie);
-            dispatch(getCartItemsFromApi({ userId: decodedToken.email }));
-            console.log(`token is ${tokenFromCookie}`);
+            dispatch(getCartItemsFromApi({token: tokenFromCookie}));
             dispatch(getUser({token: tokenFromCookie}));
         }
     },[isUserLogin])
@@ -41,10 +40,11 @@ const Navbar = () => {
         dispatch(clearCart());
         dispatch(clearUser());
     }
+
     return (
         <div className="navbar-div">
             <AppBar position="static" color="default">
-                <Tabs >
+                <Tabs value={0}>
                     <NavLink to="/products">
                         <Tab label="Products" />
                     </NavLink>

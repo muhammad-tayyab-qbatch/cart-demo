@@ -2,10 +2,11 @@ const express = require('express');
 const router = new express.Router();
 const Cart = require('../models/cart');
 const Product = require('../models/product');
+const auth = require('../middleware/auth');
 
-router.get('/cart/:id',  async (req, res) => {
+router.get('/cart', auth, async (req, res) => {
     try {
-        const { id } = req.params;
+        const id = req.user.email;
         const result = await Cart.find({ userId: id });
         const finalResult = [];
         for (const item in result) {

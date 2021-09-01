@@ -11,7 +11,6 @@ const TOKEN_KEY = 'XjgPUoJWXV';
 router.post('/register', async (req, res) => {
     try {
         const { name, email, password } = req.body;
-
         // check if user already exist
         // Validate if user exist in our database
         const userExist = await User.findOne({ email: email });
@@ -38,7 +37,6 @@ router.post('/register', async (req, res) => {
         });
     }
 })
-
 
 // Login
 router.post("/login", async (req, res) => {
@@ -80,11 +78,12 @@ router.post("/login", async (req, res) => {
 router.get('/user', auth, async (req, res) => {
     try{
         const userEmail = req.user.email;
+        const token = req.user.token;
         const user = await User.findOne({ email: userEmail });
-        console.log(`user is ${user}`);
         if(user){
             res.status(200).json({
                 auth: true,
+                token,
                 user
             })
         }else{

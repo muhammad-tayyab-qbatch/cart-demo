@@ -32,6 +32,7 @@ const ProductCard = ({ _id, name, price, src }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { auth, email } = useSelector((state) => state.user);
+
   const handleOnClick = () => {
     const userId = getCookie("userId");
     if(auth){
@@ -41,7 +42,6 @@ const ProductCard = ({ _id, name, price, src }) => {
       dispatch(addAndUpdateToCart({ productId: _id, quantity: 1, userId: userId }));
     }
     else{
-     // console.log(`no cookie`);
       const randomTocken = cryptoRandomString({length: 10});
       setCookie('userId', randomTocken);
       dispatch(addAndUpdateToCart({ productId: _id, quantity: 1, userId: randomTocken }));

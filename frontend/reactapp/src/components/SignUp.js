@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as EmailValidator from 'email-validator';
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -15,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import { registerUser, clearState } from '../redux/slices/userSlice';
+import { registerUser, clearState as clearUser } from '../redux/slices/userSlice';
 
 function Message() {
   return (
@@ -52,14 +51,15 @@ export default function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const { isRegistered } = useSelector((state) => state.user);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const { isRegistered, isloading } = useSelector((state) => state.user);
   useEffect(() => {
-    dispatch(clearState());
+    dispatch(clearUser());
   }, [])
 
   async function handleSubmit(event) {
@@ -76,6 +76,9 @@ export default function SignUp() {
     );
   }
 
+  if (isRegistered) {
+    history.push('/products');
+  }
 
   return (
     <Container component="main" maxWidth="xs">

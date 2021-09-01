@@ -12,6 +12,7 @@ export const getProductsFromApi = createAsyncThunk(
         }
     }
 )
+
 export const getSelectedProduct = createAsyncThunk(
     'get-product-by-id',
     async ({ _id }, { rejectWithValue }) => {
