@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
         const { email, password, userId } = req.body;
         //check if user exist
         const user = await User.findOne({ email: email });
-
+        
         if (user && (await bcrypt.compare(password, user.password))) {
             //create token
             const token = jwt.sign(
@@ -64,7 +64,8 @@ router.post("/login", async (req, res) => {
             })
         }
         else{
-            res.status(400).send("Invalid Credentials");
+            //throw new Error("Invalid Credentials");
+            res.status(404).send("Invalid Credentials");
         }
         
     } catch (e) {

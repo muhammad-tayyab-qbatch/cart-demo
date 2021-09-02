@@ -19,8 +19,11 @@ export const loginUser = createAsyncThunk(
         try {
             const res = await axios.post('/login', { email, password, userId });
             return res.data;
-        } catch (e) {
-            return rejectWithValue(e.message);
+        } catch (err) {
+            if (!err.response) {
+                throw err;
+            }
+            return rejectWithValue(err.response.data)
         }
     }
 )
@@ -50,7 +53,7 @@ const initialState = {
     token: '',
     isRegistered: false,
     auth: false,
-    error: {},
+    error: '',
     isloading: false
 };
 
@@ -117,7 +120,6 @@ const userSlice = createSlice({
                 auth: false,
                 isloading: false,
                 error: action.payload
-
             }
         },
         [getUser.pending]: (state, action) => {
@@ -130,7 +132,7 @@ const userSlice = createSlice({
             return {
                 ...state,
                 auth: action.payload.auth,
-                 token: action.payload.token,
+                token: action.payload.token,
                 userId: action.payload.user._id,
                 name: action.payload.user.name,
                 email: action.payload.user.email,

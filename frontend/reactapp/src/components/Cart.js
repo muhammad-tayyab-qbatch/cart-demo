@@ -42,7 +42,7 @@ const Cart = () => {
     }, []);
 
     return (
-        <div>
+        <div style={{marginTop:'10px'}}>
             <Card className={classes.root} >
 
                 <CardContent className={classes.cardContent} >

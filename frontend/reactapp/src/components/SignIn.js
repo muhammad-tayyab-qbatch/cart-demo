@@ -8,6 +8,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +16,13 @@ import Container from '@material-ui/core/Container';
 import { setCookie, getCookie } from '../Helper/helperFunction';
 import { loginUser } from '../redux/slices/userSlice';
 
-
+function Message() {
+  return (
+    <Typography variant="body2" color="secondary" align="center">
+      {'Invalid Credential'}
+    </Typography>
+  );
+}
 
 //https://serverless-stack.com/chapters/create-the-signup-form.html
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +49,7 @@ export default function SignIn() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { auth, token } = useSelector((state) => state.user);
+  const { auth, token, error } = useSelector((state) => state.user);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -140,6 +147,9 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
+      <Box mt={5}>
+        {error && <Message />}
+      </Box>
 
     </Container>
   );
